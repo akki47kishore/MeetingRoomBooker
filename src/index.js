@@ -1,90 +1,59 @@
-
 import React from "react";
 import ReactDOM from "react-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
+import logo from './images/logo.png'
+import {rooms} from './../data/room-data'
 
-function Square(props){
-    return (<button type = 'text' id={props.value} className="square" onClick={() => props.onClick()}>{props.value}</button>);
+function parseTime(time) {
+    const minutes = time.split(':');
+    return parseInt(minutes[0]) * 60 + parseInt(minutes[1]);
+ }
+
+function Occupied(props){
+    const time =props.value.timing.split('-');
+    const width = (parseTime(time[1]) - parseTime(time[0]))*100/1440;
+    const postion = parseTime(time[0])*100/1440;
+    const styles = {
+        width:`${width}%`,
+        left:`${postion}%`
+    }
+    return (<div  className="bg-info d-inline position-absolute border border-warning pl-1 reservation h-100"  style={styles}> {props.value.reserved_By} </div>);
 }
 
 
-class Box extends React.Component{
-    constructor(){
-        super();
-        this.count = 0;
-        this.gameStatus = "It's X's Turn";
+class Room extends React.Component{
+    constructor(props){
+        super(props);
+        this.roomName =props.value.name;
         this.state = {
-            squares: Array(9).fill(null),
-            xIsNext: 'true',
-            previous_State : []
-        };
-        
-    }
-    goBack(){
-        const square_copy = this.state.previous_State;
-        square_copy.pop();
-        this.count --;
-        if (this.count%2 ==0){
-            this.gameStatus = "Its X's turn";
-        } else {
-            this.gameStatus = "Its O's turn";
+            booked : props.value.bookings 
         }
-        this.setState({squares: this.state.previous_State[this.count-1],xIsNext:!this.state.xIsNext,previous_State:square_copy});
-    }
-    handleClick(i) {
-        const squareState = this.state.squares.slice();
-        const square_copy = this.state.previous_State;
-        square_copy.push(squareState);
-        if(this.gameStatus.split(" ")[1] ==='Won' || this.gameStatus === 'Match Drawn' || squareState[i]){
-            return;
-        }
-
-        const turn = !this.state.xIsNext;
-        (turn) ? squareState[i] = 'O' : squareState[i] = 'X' ;
-        const winner = calculateWinner(squareState);
-        (winner) ? this.gameStatus= `${winner} Won`:(squareState[i] === 'O')? this.gameStatus= `It's X's turn` :this.gameStatus= `It's O's turn`;
-        this.count++;
-        if(this.count == 9 && (winner === null)){
-            this.gameStatus = 'Match Drawn'; 
-        }
-        this.setState({squares: squareState,xIsNext:turn,previous_State:square_copy});
-        ReactDOM.render(<button type = 'text' onClick={() => this.goBack()}>Go Back a move</button>,document.getElementById('move-history'));
     }
     render(){
-        let board =[];
-        const styles = {
-            width:'50%'
-        }
-        this.state.squares.map((element,index) =>{
-            board.push( <Square style={styles} key={index} value={element} onClick={() => this.handleClick(index)}/>);
-        }); 
-        board.push(<div key ='game'>{this.gameStatus}</div>);
-        return (board);
+        const room =[];
+        this.state.booked.map((element,index)=>{
+            room.push(<Occupied className='py-3' key={this.roomName+index} value={element}></Occupied>);
+        })
+        return (<div className='pt-3 mr-5  pl-5'>{this.roomName}<div className='position-relative bg-dark time-bar' >{room}</div></div>);
     }
-} 
-
-function calculateWinner(squares) {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
-    }
-    return null;
-  }
+}
 
 ReactDOM.render(
-    <Box />,
-    document.getElementById('root')
+    <>   
+         <img src={logo} className='mb-2 ml-5'></img>
+         <h2 className=" mb-0 position-absolute head-text">Meeting Room Booker</h2>
+    </>,document.querySelector('#header')
 );
- 
+
+window.onload = function (){
+    const roomSection=[];
+    const timeSection=[] ;
+    for(let i =0;i<24;i++){
+        timeSection.push(<div className='time-line d-inline' key={'timeline'+i}>{i}</div>)
+    }
+    rooms.map((element,index)=>{
+        roomSection.push(<Room className='p-3 mb-3' key={index} value={element}/>);
+    })
+    ReactDOM.render(<div className='containerfluid background py-5'><div className='pr-5 py-5 pl-4 rounded room-section'><h4 className='ml-5'><u className="text-dark">Time Line</u></h4>{timeSection}{roomSection}</div></div>,document.querySelector('#root'));
+} 

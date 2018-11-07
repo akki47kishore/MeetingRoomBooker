@@ -15,6 +15,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        loader: "file-loader?name=img/img-[hash:6].[ext]"
       }
     ]
   },
@@ -26,7 +30,7 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, "public/"),
-    port: 3011,
-    publicPath: "http://localhost:3011/dist/",
+    port: 3050,
+    publicPath: "http://localhost:3050/dist/",
   },
 };
