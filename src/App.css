@@ -13,15 +13,18 @@
 }
 
 .time-line{
-    margin-left: 4.16%;
+    width: 4.16%;
+    font-size: 15px;
 }
 
 .reservation {
     overflow: hidden;
+    
 }
 
 .time-bar {
     height: 32px;
+    background-color: #4e4137;
 }
 
 .room-section {
@@ -34,4 +37,10 @@
 
 .background{
     background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+}
+.time-Section{
+    margin-left: 0.1rem;
+}
+.bookNow{
+    left: 84%;
 }

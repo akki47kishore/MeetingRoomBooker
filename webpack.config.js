@@ -30,7 +30,7 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, "public/"),
-    port: 3050,
-    publicPath: "http://localhost:3050/dist/",
+    port: 3025,
+    publicPath: "http://localhost:3025/dist/",
   },
 };
