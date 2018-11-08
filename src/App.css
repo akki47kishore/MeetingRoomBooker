@@ -1,5 +1,5 @@
 .head-text {
-    bottom: 0%;
+    bottom: 27%;
     left: 11rem;
     color: silver
 }
@@ -11,6 +11,20 @@
     
     padding-left: 3rem;
 }
+
+.nav-bar{
+    color: #2c3e50;
+    font-size: 20px;
+}
+
+.selected{
+    font-size: 20px !important;
+    color: darkmagenta !important;
+}
+
+ul {
+    list-style-type: none;
+  }
 
 .time-line{
     width: 4.16%;
