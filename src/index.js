@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
 import logo from './images/logo.png';
-import {Dashboard} from './dashboard.js'
+import {Dashboard} from './dashboard.js';
+import {MyBookings} from "./myBookings.js";
 import { BrowserRouter as Router, Route ,NavLink,Switch } from "react-router-dom";
 
 function Header (){
@@ -33,8 +34,8 @@ function AppRouter(){
     <div>
         <Header />
         <Switch>
-            {/* <Route path="/NewBooking" component={NewBooking} /> */}
-            <Route path="/" component={Dashboard} />
+            <Route exact path="/" component = {Dashboard} />
+            <Route path="/mybookings" component ={MyBookings} />
         </Switch>
     </div>
     </Router>

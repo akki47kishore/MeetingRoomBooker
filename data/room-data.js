@@ -1,5 +1,5 @@
 const rooms = [{
-        name: 'K&R',
+        name: 'PASCAL',
         bookings: [{
             reserved_By: 'Lulu',
             timing: '07:00-08:00'
